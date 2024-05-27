@@ -1,3 +1,6 @@
+#ifndef CLASES_CPP
+#define CLASES_CPP
+
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -11,6 +14,7 @@ class F_Node{
     bool marked;
     int degree;
     F_Node *parent;
+    Node *nodo;
     vector<F_Node*> children;
 
     F_Node(double value) : key(value), degree(0), marked(false){}
@@ -161,3 +165,4 @@ class FibonacciHeap{
     }
 };
 
+#endif
