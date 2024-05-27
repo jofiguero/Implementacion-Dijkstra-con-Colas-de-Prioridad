@@ -4,19 +4,26 @@
 using namespace std;
 
 class Nodo{
-    Par *par;
+    public:
+    class Par *par;
+
+    Nodo(Par *par): par(par){}
 };
 
 class Par{
     public:
-    int distancia;
-    Nodo nodo;
+    double distancia;
+    int nodo;
+
+    Par(double d): distancia(d), nodo(NULL) {}
 };
 
 class Heap{
     public:
     vector<Par> h;
     int n;
+
+    Heap (): n(0){}
 
     //hunde el nodo en la posicion i hasta su nivel correcto
     void hundir(int i){ 
@@ -29,10 +36,11 @@ class Heap{
             }
             //si el nodo tiene mejor o igual prioridad que su hijo
             if(h[i].distancia <= h[hijo].distancia){
-                Par temp = h[i];    //los intercambia
-                h[i] = h[hijo];
-                h[hijo] = temp;
+                break;
             }
+            Par temp = h[i];    //los intercambia
+            h[i] = h[hijo];
+            h[hijo] = temp;
             i=hijo; //ahora el nodo a hundir se encuentra en la posicion de su hijo
         }
     }
@@ -59,6 +67,7 @@ class Heap{
     Par extractMin(){   
         Par min = h[0];
         h[0] = h[n-1];
+        h.erase(h.end()-1);
         n-=1;
         hundir(0);
         return min;
@@ -66,7 +75,7 @@ class Heap{
 
     //inserta un elemento en el heap
     void insertar(Par p){
-        h[n] = p;
+        h.push_back(p);
         subir(n);
         n++;
     }
