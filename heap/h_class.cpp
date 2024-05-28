@@ -3,19 +3,13 @@
 #include <vector>
 using namespace std;
 
-class Nodo{
-    public:
-    class Par *par;
-
-    Nodo(Par *par): par(par){}
-};
-
 class Par{
     public:
     double distancia;
     int nodo;
+    int pos;    //indice dentro del heap
 
-    Par(double d): distancia(d), nodo(NULL) {}
+    Par(double d, int nodo): distancia(d), nodo(nodo), pos(nodo) {}
 };
 
 class Heap{
@@ -41,6 +35,10 @@ class Heap{
             Par temp = h[i];    //los intercambia
             h[i] = h[hijo];
             h[hijo] = temp;
+
+            h[i].pos = i;       //actualiza las posiciones de los pares
+            h[hijo].pos = hijo;
+
             i=hijo; //ahora el nodo a hundir se encuentra en la posicion de su hijo
         }
     }
@@ -53,6 +51,10 @@ class Heap{
             Par temp = h[i];    //los intercambia
             h[i] = h[padre];
             h[padre] = temp;
+
+            h[i].pos = i;       //actualiza las posiciones de los pares
+            h[padre].pos = padre;
+
             i = padre;          //ahora el nodo está en el lugar de su padre
             padre = (i-1)/2;
         }
@@ -73,11 +75,30 @@ class Heap{
         return min;
     }
 
-    //inserta un elemento en el heap
-    void insertar(Par p){
+    //inserta un elemento en el heap, siguiendo las reglas del heap
+    void insertarHeap(Par p){
+        p.pos = n;
         h.push_back(p);
-        subir(n);
         n++;
+        subir(n-1);
+    }
+
+    //inserta un elemento en el heap, sin seguir las reglas del heap
+    void insertar(Par p){
+        p.pos = n;
+        h.push_back(p);
+        n++;
+    }
+
+    void decreaseKey(Par p){
+        subir(p.pos);
+    }
+
+    void heapify(){
+        int nodo_interno = (n / 2) - 1;     // indice del ultimo nodo interno
+        for (int i = nodo_interno; i >= 0; i--) {
+            hundir(i);
+        }
     }
 
 };
