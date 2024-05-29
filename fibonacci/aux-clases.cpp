@@ -1,3 +1,6 @@
+#ifndef CLASES_CPP
+#define CLASES_CPP
+
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -5,26 +8,11 @@
 #include "fibonacci-heap.cpp"
 using namespace std; 
 
-class Neighbor{
+class Retorno{
     public:
-    Node* node;
-    double distance;
+    double *Ldistancias;
+    int *Lprevios;
 
-    Neighbor(Node *node, double distance): node(node), distance(distance) {}
+    Retorno(double *distancias,int *previos): Ldistancias(distancias), Lprevios(previos){}
 };
-
-
-class Node{
-    public:
-    int id;
-    vector<Neighbor*> neighbors;
-    F_Node *fnode;
-
-    void addNeighbor(Node* nodo, double distance) {
-        Neighbor *neighbor = new Neighbor(nodo, distance);
-        neighbors.push_back(neighbor);
-    }
-
-    Node(int id) : id(id) {}
-};
-
+#endif

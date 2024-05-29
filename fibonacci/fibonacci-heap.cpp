@@ -1,5 +1,5 @@
-#ifndef CLASES_CPP
-#define CLASES_CPP
+#ifndef FIB_CPP
+#define FIB_CPP
 
 #include <stdio.h>
 #include <iostream>
@@ -8,16 +8,24 @@
 #include <cfloat>
 using namespace std; 
 
+class Par{
+    public:
+    int node;
+    double distance;
+
+    Par(int node, double distance): node(node), distance(distance) {}
+};
+
 class F_Node{
     public:
     double key;
+    Par *pair;
     bool marked;
     int degree;
     F_Node *parent;
-    Node *nodo;
     vector<F_Node*> children;
 
-    F_Node(double value) : key(value), degree(0), marked(false){}
+    F_Node(double value,int i) : key(value), degree(0), marked(false), pair(new Par(i,value)){}
 
     bool operator==(const F_Node& other) const {
         if (key != other.key) return false;
@@ -32,14 +40,10 @@ class F_Node{
     
     void eraseChild(F_Node *child){
         auto it = find(children.begin(), children.end(), child);
-        if (it != children.end()) {
-            children.erase(it);
-            degree--;
-            child->parent = nullptr; 
-        }
+        children.erase(it);
+        degree--;
+        child->parent = nullptr; 
     }
-    
-    
 };
 
 class FibonacciHeap{
@@ -47,19 +51,21 @@ class FibonacciHeap{
     F_Node *minRoot;
     vector<F_Node*> rootList;
 
-    FibonacciHeap(F_Node *nodo) : minRoot(nodo) {
-        rootList.push_back(nodo);
-    }
+    FibonacciHeap(): minRoot(nullptr) {}
 
     double getMin(){
         return minRoot->key;
     }
+    bool isEmpty(){
+        if(rootList.size() == 0){
+            return true;
+        }
+        return false;
+    }
 
     void eraseRoot(F_Node *nodo){
         auto it = find(rootList.begin(), rootList.end(), nodo);
-        if (it != rootList.end()) {
-            rootList.erase(it);
-        }
+        rootList.erase(it);
     }
 
     void cutOut(F_Node *nodo){
@@ -71,14 +77,16 @@ class FibonacciHeap{
         if(!parent->marked){
             parent->marked = true;
         }else{
-            cutOut(parent);
+            if(nodo->parent != nullptr){
+                cutOut(parent);
+            }
         }
     }
 
     void setMinimum(){
         double max =  DBL_MAX;
         for(F_Node *nodo: rootList){
-            if(nodo->key<max){
+            if(nodo->key<=max){
                 max = nodo->key;
                 minRoot = nodo;
             }
@@ -86,21 +94,38 @@ class FibonacciHeap{
     }
 
     void insert(F_Node *nodo){
-        rootList.push_back(nodo);
-        if (nodo->key < minRoot->key){
+        if(rootList.size() == 0){
+            rootList.push_back(nodo);
             minRoot = nodo;
+        }else{
+            rootList.push_back(nodo);
+            if (nodo->key < minRoot->key){
+                minRoot = nodo;
+            }
         }
     }
 
     void DecreaseKey(F_Node *nodo, double newkey){
         nodo->key = newkey;
-        if(nodo->parent->key > newkey){
-            cutOut(nodo);
+        nodo->pair->distance = newkey;
+        if(nodo->parent != nullptr){
+            if(nodo->parent->key > newkey){
+                cutOut(nodo);
+            }
         }
+
+        setMinimum();
     }
     F_Node *ExtractMin(){
         //Seleccionamos el antiguo minimo
         F_Node* oldMin = minRoot;
+
+        if (rootList.size() == 1){
+            eraseRoot(oldMin);
+            minRoot = nullptr;
+            return oldMin;
+        }
+        
         //Agregamos sus hijos a la root list
         for (F_Node* child : oldMin->children) {
             child->parent = nullptr; 
@@ -162,6 +187,21 @@ class FibonacciHeap{
         }
         setMinimum();
         return oldMin;
+    }
+    int countNodes(F_Node *nodo){
+        int count = 1; // contar el nodo actual
+        for(F_Node* child : nodo->children){
+            count += countNodes(child); // contar los nodos en los subárboles
+        }
+        return count;
+    }
+
+    int Nnodes(){
+        int totalNodes = 0;
+        for(F_Node *root : rootList){
+            totalNodes += countNodes(root);
+        }
+        return totalNodes;
     }
 };
 
