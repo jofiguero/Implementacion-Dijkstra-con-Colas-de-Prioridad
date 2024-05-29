@@ -48,17 +48,16 @@ int main(){
 
     imprimirMatriz(matriz,7);
 
-    Retorno * ret = Dijkstra(6,matriz,7);
+    Retorno * ret = Dijkstra(0,matriz,7);
 
     printf("Llegue al final del programa!!\n");
     printf("Previos:\n");
-
     for(int i = 0; i<7; i++){
-        printf("%d,\n",ret->Lprevios[i]);
+        printf("Para llegar a nodo %d, el previo es %d,\n",i+1,ret->Lprevios[i]+1);
     }
     printf("Distancias:\n");
     for(int i = 0; i<7; i++){
-        printf("%f,\n",ret->Ldistancias[i]);
+        printf("Para llegar a nodo %d, la distancia total es %f,\n",i+1,ret->Ldistancias[i]);
     }
 
     return 0;

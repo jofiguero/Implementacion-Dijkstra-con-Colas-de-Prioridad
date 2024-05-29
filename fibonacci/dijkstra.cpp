@@ -31,9 +31,9 @@ Retorno *Dijkstra(int raiz, double **edges, int N){
     //PASO 3
     distancias[raiz] = 0;
     previos[raiz] = -1;
-    F_Node n1 = F_Node(0,raiz);
-    punteros[raiz] = &n1;
-    heap.insert(&n1);
+    F_Node *n1 = new F_Node(0,raiz);
+    punteros[raiz] = n1;
+    heap.insert(n1);
 
     //PASO 4 DBL_MAX
     for (int v = 0; v < N; v++){
@@ -45,37 +45,35 @@ Retorno *Dijkstra(int raiz, double **edges, int N){
             /*Creamos el F_Node(infinito,v)*/
             F_Node *n = new F_Node(DBL_MAX,v);
             /*Lo agregamos a heap*/
-            printf("a%d\n",v);
             heap.insert(n);
             /*Registramos el puntero*/
             punteros[v] = n;
         }
     }
-    printf("La rootList tiene tamano %d\n",heap.rootList.size());
-    printf("Hay %d nodos en el heap\n",heap.Nnodes());
     //PASO 6
     while(!heap.isEmpty()){
-        printf("\nHay %d nodos en el heap antes del extractMin\n",heap.Nnodes());
         F_Node *minimo = heap.ExtractMin();
         int nodo = minimo->pair->node;
-        printf("El nodo que estoy mirando es %d\n",nodo);
-        printf("La rootList tiene tamano %d\n",heap.rootList.size());
-        printf("Hay %d nodos en el heap\n",heap.Nnodes());
+        printf("\nEl nodo que estoy mirando es %d\n",nodo);
+        //printf("Tiene %d hijos\n",minimo->children.size());
+        printf("Hay %d nodos en el heap y %d raices\n",heap.Nnodes(),heap.rootList.size());
+        for(F_Node *raiz: heap.rootList){
+            printf("El arbol de raiz %d, con %d hijos, tiene %d nodos\n",raiz->pair->node,raiz->children.size(),raiz->countNodes(raiz));
+        }
 
         for(int v = 0; v < N; v++){ //Por cada nodo
             if(edges[nodo][v] != 0){  // Si es vecino
                 int peso = edges[nodo][v]; //Calculamos su distancia
-                printf("Tiene de vecino a %d\n", v);
+                printf("Tiene de vecino a %d, que act tiene una distancia de %f\n", v, distancias[v]);
                 if(distancias[v] > distancias[nodo]+peso){
                     distancias[v] = distancias[nodo]+peso;
+                    printf("Le vamos a colocar como nueva distancia minima: %f\n",distancias[v]);
                     previos[v] = nodo;
                     heap.DecreaseKey(punteros[v], distancias[v]);
                 }
-
             }
         }
     }  
     Retorno *ret = new Retorno(distancias,previos);
-
     return ret;
 }
