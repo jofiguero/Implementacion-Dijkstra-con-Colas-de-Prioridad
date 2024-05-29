@@ -47,7 +47,9 @@ int generar_arbol_cobertor(matrix &M, int v){
 
     while(aristas < v-1){
         int c = random_int(0,f-1);   // entero entre 0 y v
-        M[f][c] = random_peso();
+        double peso = random_peso();
+        M[f][c] = peso;
+        M[c][f] = peso;
         f++;
         aristas++;
     }
@@ -59,10 +61,12 @@ int generar_arbol_cobertor(matrix &M, int v){
 int add_aristas(matrix &M, int v, int e){
     int aristas = 0;
     while(aristas < e-(v-1)){
-        int f = random_int(0,v-1);
-        int c = random_int(0,f);
-        if(M[f][c] == 0 && M[c][f] == 0){
-            M[f][c] = random_peso();
+        int f = random_int(1,v-1);
+        int c = random_int(0,f-1);
+        if(M[f][c] == 0){
+            double peso = random_peso();
+            M[f][c] = peso;
+            M[c][f] = peso;
             aristas++;
         }  
     }
@@ -71,13 +75,14 @@ int add_aristas(matrix &M, int v, int e){
 
 void imprimirMatriz(matrix M){
    for(int i = 0; i < M.size(); i++){
-      for(int j = 0; j < M.size(); j++){
-        if(M[i][j]!=0){
-            cout <<1<< " ";  
-        }
-        else{
-           cout <<0<< " ";  
-        }
+      for(int j = 0; j < M[i].size(); j++){
+         if(M[i][j]!=0){
+             cout <<1<< " ";  
+         }
+         else{
+            cout <<0<< " ";  
+         }
+        //cout<<M[i][j]<<" ";
          
       }
       cout<<endl;
