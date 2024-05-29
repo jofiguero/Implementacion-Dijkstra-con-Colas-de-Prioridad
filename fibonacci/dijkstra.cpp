@@ -5,8 +5,14 @@
 #include <stdio.h>
 #include <cfloat>
 #include "fibonacci-heap.cpp"
-#include "aux-clases.cpp"
 
+class Retorno{
+    public:
+    double *Ldistancias;
+    int *Lprevios;
+
+    Retorno(double *distancias,int *previos): Ldistancias(distancias), Lprevios(previos){}
+};
 
 /*
 Algoritmo Dijkstra
