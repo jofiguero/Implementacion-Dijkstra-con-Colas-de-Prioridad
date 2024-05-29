@@ -19,6 +19,13 @@ class Heap{
 
     Heap (): n(0){}
 
+
+    bool isEmpty(){
+        if (h.size() == 0){
+            return true;
+        }
+        return false;
+    }
     //hunde el nodo en la posicion i hasta su nivel correcto
     void hundir(int i){ 
         //mientras tenga hijos
@@ -69,6 +76,7 @@ class Heap{
     Par extractMin(){   
         Par min = h[0];
         h[0] = h[n-1];
+        h[0].pos = 0;
         h.erase(h.end()-1);
         n-=1;
         hundir(0);
@@ -84,13 +92,14 @@ class Heap{
     }
 
     //inserta un elemento en el heap, sin seguir las reglas del heap
-    void insertar(Par p){
+    void insertar(Par& p){
         p.pos = n;
         h.push_back(p);
         n++;
     }
 
-    void decreaseKey(Par p){
+    void decreaseKey(Par& p, double d){
+        p.distancia = d;
         subir(p.pos);
     }
 
