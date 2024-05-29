@@ -55,11 +55,10 @@ Retorno *Dijkstra(int raiz, double **edges, int N){
     printf("Hay %d nodos en el heap\n",heap.Nnodes());
     //PASO 6
     while(!heap.isEmpty()){
-        printf("%d\n",heap.rootList.size());
-        printf("Hay %d nodos en el heap antes del extractMin\n",heap.Nnodes());
+        printf("\nHay %d nodos en el heap antes del extractMin\n",heap.Nnodes());
         F_Node *minimo = heap.ExtractMin();
         int nodo = minimo->pair->node;
-        printf("\nEl nodo que estoy mirando es %d\n",nodo);
+        printf("El nodo que estoy mirando es %d\n",nodo);
         printf("La rootList tiene tamano %d\n",heap.rootList.size());
         printf("Hay %d nodos en el heap\n",heap.Nnodes());
 

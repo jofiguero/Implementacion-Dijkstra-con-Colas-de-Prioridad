@@ -116,8 +116,24 @@ class FibonacciHeap{
 
         setMinimum();
     }
+    int countNodes(F_Node *nodo){
+        int count = 1; // contar el nodo actual
+        for(F_Node* child : nodo->children){
+            count += countNodes(child); // contar los nodos en los subárboles
+        }
+        return count;
+    }
+
+    int Nnodes(){
+        int totalNodes = 0;
+        for(F_Node *root : rootList){
+            totalNodes += countNodes(root);
+        }
+        return totalNodes;
+    }
     F_Node *ExtractMin(){
         //Seleccionamos el antiguo minimo
+        printf("Tenemos %d nodos en 1\n",this->Nnodes());
         F_Node* oldMin = minRoot;
 
         if (rootList.size() == 1){
@@ -125,18 +141,21 @@ class FibonacciHeap{
             minRoot = nullptr;
             return oldMin;
         }
+        printf("Tenemos %d nodos en 2\n",this->Nnodes());
         
         //Agregamos sus hijos a la root list
         for (F_Node* child : oldMin->children) {
             child->parent = nullptr; 
             insert(child);  
         }
+        printf("Tenemos %d nodos en 3\n",this->Nnodes());
 
         //eliminamos los hijos del minimo de su lista de hijos
         oldMin->children.clear();
 
         //Eliminamos la raiz de la lista de raices
         eraseRoot(oldMin);
+        printf("Tenemos %d nodos en 4\n",this->Nnodes());
 
         vector<vector<F_Node*>*> mergeList;
         for(F_Node *raiz: rootList){
@@ -147,8 +166,10 @@ class FibonacciHeap{
             /*lo agregamos al vector <grado+1>de la mergeList*/
             mergeList[raiz->degree]->push_back(raiz);
         }
+        printf("Tenemos %d nodos en 5\n",this->Nnodes());
         for(vector<F_Node*> *vec: mergeList){
             while(vec->size() > 1){
+                printf("Tenemos %d nodos en el while\n",this->Nnodes());
                 /*tomo las dos primeras raices*/
                 F_Node *n1 = (*vec)[0];
                 F_Node *n2 = (*vec)[1];
@@ -185,24 +206,11 @@ class FibonacciHeap{
                 
             }
         }
+        printf("Tenemos %d nodos en 5\n",this->Nnodes());
         setMinimum();
         return oldMin;
     }
-    int countNodes(F_Node *nodo){
-        int count = 1; // contar el nodo actual
-        for(F_Node* child : nodo->children){
-            count += countNodes(child); // contar los nodos en los subárboles
-        }
-        return count;
-    }
 
-    int Nnodes(){
-        int totalNodes = 0;
-        for(F_Node *root : rootList){
-            totalNodes += countNodes(root);
-        }
-        return totalNodes;
-    }
 };
 
 #endif
