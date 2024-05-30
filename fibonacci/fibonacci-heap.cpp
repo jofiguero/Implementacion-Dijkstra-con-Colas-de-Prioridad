@@ -77,8 +77,6 @@ class FibonacciHeap{
         if (it != rootList.end()) {
             printf("El nodo que vamos a eliminar es el %d y tiene %d nodos en su subarbol\n", (*it)->pair->node,countNodes(*it)-1);
             rootList.erase(it);
-        }else{
-            printf("Chuta\n");
         }
     }
     void insert(F_Node *nodo){
@@ -92,8 +90,6 @@ class FibonacciHeap{
                     minRoot = nodo;
                 }
             }
-        }else{
-            printf("chuta2, el nodo que la cago es %d\n",nodo->pair->node);
         }
         
     }
@@ -168,26 +164,21 @@ class FibonacciHeap{
     F_Node *ExtractMin(){
         //Seleccionamos el antiguo minimo
         F_Node* oldMin = minRoot;
-        printf("En este momento la rootList esta asi:");
-        printRooList();
 
-        printf("Hay %d nodos en el heap durante de la extraccion 2\n",Nnodes());
         //Agregamos los hijos a la rootList
         for (F_Node* child : oldMin->children) {
-            child->parent = nullptr; 
+            child->parent = nullptr;
             insert(child);
-            oldMin->eraseChild(child);  
         }
+        oldMin->children.clear();
         if (rootList.size() == 1){
             eraseRoot(oldMin);
             minRoot = nullptr;
             return oldMin;
         }
-        printf("Hay %d nodos en el heap durante de la extraccion 1\n",Nnodes());
         //Eliminamos la raiz de la lista de raices
         eraseRoot(oldMin);
         
-        printf("Hay %d nodos en el heap durante de la extraccion 4\n",Nnodes());
         vector<vector<F_Node*>*> mergeList;
         for(F_Node *raiz: rootList){
             while(raiz->degree >= mergeList.size()){
@@ -197,64 +188,35 @@ class FibonacciHeap{
             /*lo agregamos al vector <grado+1>de la mergeList*/
             mergeList[raiz->degree]->push_back(raiz);
         }
-        printf("Hay %d nodos en el heap durante de la extraccion 5\n",Nnodes());
         for(size_t i = 0; i < mergeList.size(); ++i){
-            printf("Hay %d nodos en el heap FOR 1\n",Nnodes());
             while(mergeList[i]->size() > 1){
-                printf("Hay %d nodos en el heap WHILE 1\n",Nnodes());
                 /*tomo las dos primeras raices*/
                 F_Node *n1 = (*mergeList[i])[0];
                 F_Node *n2 = (*mergeList[i])[1];
-                printf("Hay %d nodos en el heap WHILE 2\n",Nnodes());
-                printf("Hay %d elementos en mergeList[i] antes de borrar\n",mergeList[i]->size());
+
                 auto it1 = find(mergeList[i]->begin(), mergeList[i]->end(), n1);
                 mergeList[i]->erase(it1);
                 auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
                 mergeList[i]->erase(it2);
-                printf("Hay %d elementos en mergeList[i] despues de borrar\n",mergeList[i]->size());
+
                 if(raizYaExistente(n1) && raizYaExistente(n2)){
                     if(n1->key < n2->key){
-                        printf("n1 tiene %d nodos\n",countNodes(n1));
-                        printf("n2 tiene %d nodos\n",countNodes(n2));
-                        printf("Hay %d nodos y %d raices en el heap IF 1\n",Nnodes(),rootList.size());
-                        printRooList();
                         n1->addChild(n2);
-                        printf("Hay %d nodos y %d raices en el heap IF 1.5\n",Nnodes(),rootList.size());
-                        eraseRoot(n2);
-                        printf("Hay %d nodos en el heap IF 2\n",Nnodes());
-                        printRooList();
 
                         if(mergeList.size()<=n1->degree){
                             /*Agregar un nuevo vector a la mergeList*/
                             mergeList.push_back(new vector<F_Node*>);
                         }
-                        printf("Hay %d nodos en el heap IF 4\n",Nnodes());
                         /*Agregar n1 al siguiente vector de la mergeList*/
                         mergeList[n1->degree]->push_back(n1);
-                        printf("Hay %d nodos en el heap IF 5\n",Nnodes());
                     }else{
-                        printf("n1 tiene %d nodos\n",countNodes(n1));
-                        printf("n2 tiene %d nodos\n",countNodes(n2));
-
-                        printf("Hay %d nodos y %d raices en el heap ELSE 1\n",Nnodes(),rootList.size());
-                        printRooList();
                         n2->addChild(n1);
-                        printf("Hay %d nodos y %d raices en el heap ELSE 2\n",Nnodes(),rootList.size());
-                        printf("El nodo que deberia eliminar es el %d\n",n1->pair->node);
-                        eraseRoot(n1);
-                        printf("Hay %d nodos y %d raices en el heap ELSE 3\n",Nnodes(),rootList.size());
-                        printRooList();
-                        /*eliminamos tambien n2 y n1 de vec*/
-
-                        printf("Hay %d nodos en el heap ELSE 3\n",Nnodes());
                         if(mergeList.size()<=n2->degree){
                             /*Agregar un nuevo vector a la mergeList*/
                             mergeList.push_back(new vector<F_Node*>);
                         }
-                        printf("Hay %d nodos en el heap ELSE 4\n",Nnodes());
                         /*Agregar n2 al siguiente vector de la mergeList*/
                         mergeList[n2->degree]->push_back(n2);
-                        printf("Hay %d nodos en el heap ELSE 5\n",Nnodes());
                     }
                 }else{
                     if(!raizYaExistente(n1)){
@@ -265,9 +227,14 @@ class FibonacciHeap{
                         mergeList[i]->erase(it2);
                     }
                 }
+                rootList.clear();
+                for(vector<F_Node*> *vec: mergeList){
+                    for(F_Node *nodo: *vec){
+                        insert(nodo);
+                    }
+                }
             }
         }
-        printf("Hay %d nodos en el heap durante de la extraccion 6\n",Nnodes());
         setMinimum();
         return oldMin;
     }
