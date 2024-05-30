@@ -19,6 +19,7 @@ double exp(int v, int e){
 
     final = clock();
     double tiempo = (double(final-inicio)/CLOCKS_PER_SEC);
+    return tiempo;
 }
 
 void exp_50(int v, int e){
@@ -41,5 +42,6 @@ void experimento(){
 }
 
 int main(){
+    cout<<"Comienza el experimento para Dijkstra con Heap"<<endl;
     experimento();
 }

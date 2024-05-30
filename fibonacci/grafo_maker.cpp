@@ -109,7 +109,7 @@ int main(){
 
     cout<<"SI SE PUDO"<<endl;
 
-    Retorno *ret = Dijkstra(0,M,pow(2,v));
+    Retorno *ret = Dijkstra(0, M, pow(2,v));
 
     cout<<"termine"<<endl;
 
