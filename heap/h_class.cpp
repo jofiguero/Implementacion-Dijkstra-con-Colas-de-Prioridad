@@ -101,7 +101,6 @@ class Heap{
     void decreaseKey(Par *p, double d){
         //p->distancia = d;
         h[p->pos]->distancia = d;
-        printf("El nuevo valor dentro de decreasekey es %f\n",h[p->pos]->distancia);
         subir(p->pos);
     }
 
