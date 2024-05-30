@@ -75,8 +75,9 @@ class FibonacciHeap{
         auto it = find(rootList.begin(), rootList.end(), nodo);
         int i = 1;
         if (it != rootList.end()) {
-            printf("El nodo que vamos a eliminar es el %d y tiene %d nodos en su subarbol\n", (*it)->pair->node,countNodes(*it)-1);
             rootList.erase(it);
+        }else{
+            printf("Chuta\n");
         }
     }
     void insert(F_Node *nodo){
@@ -90,6 +91,8 @@ class FibonacciHeap{
                     minRoot = nodo;
                 }
             }
+        }else{
+            printf("chuta2, el nodo que la cago es %d\n",nodo->pair->node);
         }
         
     }
@@ -106,6 +109,7 @@ class FibonacciHeap{
             if(parent->parent != nullptr){
                 cutOut(parent);
             }
+                
         }
     }
 
@@ -164,22 +168,25 @@ class FibonacciHeap{
     F_Node *ExtractMin(){
         //Seleccionamos el antiguo minimo
         F_Node* oldMin = minRoot;
-
+        
         //Agregamos los hijos a la rootList
         for (F_Node* child : oldMin->children) {
-            child->parent = nullptr;
+            child->parent = nullptr; 
             insert(child);
+            oldMin->eraseChild(child);  
         }
-        oldMin->children.clear();
+
         if (rootList.size() == 1){
             eraseRoot(oldMin);
             minRoot = nullptr;
             return oldMin;
         }
+
         //Eliminamos la raiz de la lista de raices
         eraseRoot(oldMin);
-        
+
         vector<vector<F_Node*>*> mergeList;
+        
         for(F_Node *raiz: rootList){
             while(raiz->degree >= mergeList.size()){
                 /*Creamos un nuevo vector de nodos y lo agregamos a mergeList*/
@@ -194,6 +201,7 @@ class FibonacciHeap{
                 F_Node *n1 = (*mergeList[i])[0];
                 F_Node *n2 = (*mergeList[i])[1];
 
+                /*eliminamos tambien n2 y n1 de mergeList[i]*/
                 auto it1 = find(mergeList[i]->begin(), mergeList[i]->end(), n1);
                 mergeList[i]->erase(it1);
                 auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
@@ -202,7 +210,7 @@ class FibonacciHeap{
                 if(raizYaExistente(n1) && raizYaExistente(n2)){
                     if(n1->key < n2->key){
                         n1->addChild(n2);
-
+                        eraseRoot(n2);
                         if(mergeList.size()<=n1->degree){
                             /*Agregar un nuevo vector a la mergeList*/
                             mergeList.push_back(new vector<F_Node*>);
@@ -211,6 +219,7 @@ class FibonacciHeap{
                         mergeList[n1->degree]->push_back(n1);
                     }else{
                         n2->addChild(n1);
+                        eraseRoot(n1);
                         if(mergeList.size()<=n2->degree){
                             /*Agregar un nuevo vector a la mergeList*/
                             mergeList.push_back(new vector<F_Node*>);
@@ -225,12 +234,6 @@ class FibonacciHeap{
                     }else{
                         auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
                         mergeList[i]->erase(it2);
-                    }
-                }
-                rootList.clear();
-                for(vector<F_Node*> *vec: mergeList){
-                    for(F_Node *nodo: *vec){
-                        insert(nodo);
                     }
                 }
             }

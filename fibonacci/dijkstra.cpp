@@ -21,7 +21,7 @@ Recibe un nodo raiz, un arreglo de nodos, una matriz de distancias entre nodos y
 que hay, construye el arbol de caminos mas corto entre el nodo raiz y cualquier nodo del grafo y 
 retorna el arreglo de distancias y de previos que lo representa.
 */
-Retorno *Dijkstra(int raiz, matrix edges, int N){
+Retorno *Dijkstra(int raiz, double ** edges, int N){
     //PASO 1
     int nodes[N];
     for (int i = 0; i<N; i++){
@@ -58,7 +58,9 @@ Retorno *Dijkstra(int raiz, matrix edges, int N){
     }
     //PASO 6
     while(!heap.isEmpty()){
+        printf("\nHay %d nodos en el heap antes de la extraccion\n",heap.Nnodes());
         F_Node *minimo = heap.ExtractMin();
+        printf("Hay %d nodos en el heap despues de la extraccion\n\n",heap.Nnodes());
         int nodo = minimo->pair->node;
 
         for(int v = 0; v < N; v++){ //Por cada nodo
