@@ -98,7 +98,7 @@ matrix genera_grafo(int v, int e){
     return M;
 }
 
-int main(){
+int mainfalso(){
     int v; // Cantidad de nodos del grafo
     int e;
     cout << "Ingrese la cantidad de nodos 2^";

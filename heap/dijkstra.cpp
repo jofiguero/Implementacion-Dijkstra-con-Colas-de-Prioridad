@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include <cfloat>
 #include "h_class.cpp"
+
 typedef vector<vector<double>> matrix;
+
 class Retorno{
     public:
     double *Ldistancias;
