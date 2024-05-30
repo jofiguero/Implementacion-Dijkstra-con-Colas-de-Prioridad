@@ -106,7 +106,10 @@ class FibonacciHeap{
         if(!parent->marked){
             parent->marked = true;
         }else{
-            cutOut(parent);
+            if(parent->parent != nullptr){
+                cutOut(parent);
+            }
+                
         }
     }
 
@@ -166,30 +169,24 @@ class FibonacciHeap{
         //Seleccionamos el antiguo minimo
         F_Node* oldMin = minRoot;
         
-        if (rootList.size() == 1){
-            eraseRoot(oldMin);
-            minRoot = nullptr;
-            for (F_Node* child : oldMin->children) {
-                child->parent = nullptr; 
-                insert(child);
-                oldMin->eraseChild(child);  
-            }
-            return oldMin;
-        }
-        //Eliminamos la raiz de la lista de raices
-        eraseRoot(oldMin);
-
-
-        //Agregamos sus hijos a la root list
-
+        //Agregamos los hijos a la rootList
         for (F_Node* child : oldMin->children) {
             child->parent = nullptr; 
             insert(child);
             oldMin->eraseChild(child);  
         }
-        //eliminamos los hijos del minimo de su lista de hijos
-        oldMin->children.clear();
+
+        if (rootList.size() == 1){
+            eraseRoot(oldMin);
+            minRoot = nullptr;
+            return oldMin;
+        }
+
+        //Eliminamos la raiz de la lista de raices
+        eraseRoot(oldMin);
+
         vector<vector<F_Node*>*> mergeList;
+        
         for(F_Node *raiz: rootList){
             while(raiz->degree >= mergeList.size()){
                 /*Creamos un nuevo vector de nodos y lo agregamos a mergeList*/
@@ -209,11 +206,11 @@ class FibonacciHeap{
                 mergeList[i]->erase(it1);
                 auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
                 mergeList[i]->erase(it2);
+
                 if(raizYaExistente(n1) && raizYaExistente(n2)){
                     if(n1->key < n2->key){
                         n1->addChild(n2);
                         eraseRoot(n2);
-                        printRooList();
                         if(mergeList.size()<=n1->degree){
                             /*Agregar un nuevo vector a la mergeList*/
                             mergeList.push_back(new vector<F_Node*>);

@@ -107,7 +107,9 @@ class FibonacciHeap{
         if(!parent->marked){
             parent->marked = true;
         }else{
-            cutOut(parent);
+            if(parent->parent != nullptr){
+                cutOut(parent);
+            }
         }
     }
 
@@ -168,34 +170,23 @@ class FibonacciHeap{
         F_Node* oldMin = minRoot;
         printf("En este momento la rootList esta asi:");
         printRooList();
-        
+
+        printf("Hay %d nodos en el heap durante de la extraccion 2\n",Nnodes());
+        //Agregamos los hijos a la rootList
+        for (F_Node* child : oldMin->children) {
+            child->parent = nullptr; 
+            insert(child);
+            oldMin->eraseChild(child);  
+        }
         if (rootList.size() == 1){
             eraseRoot(oldMin);
             minRoot = nullptr;
-            for (F_Node* child : oldMin->children) {
-                child->parent = nullptr; 
-                insert(child);
-                oldMin->eraseChild(child);  
-            }
             return oldMin;
         }
         printf("Hay %d nodos en el heap durante de la extraccion 1\n",Nnodes());
         //Eliminamos la raiz de la lista de raices
         eraseRoot(oldMin);
-        printf("Hay %d nodos en el heap durante de la extraccion 2\n",Nnodes());
-
-
-        //Agregamos sus hijos a la root list
-
-        for (F_Node* child : oldMin->children) {
-            child->parent = nullptr; 
-            printf("Estamos insertando a %d\n",child->pair->node);
-            insert(child);
-            oldMin->eraseChild(child);  
-        }
-        printf("Hay %d nodos en el heap durante de la extraccion 3\n",Nnodes());
-        //eliminamos los hijos del minimo de su lista de hijos
-        oldMin->children.clear();
+        
         printf("Hay %d nodos en el heap durante de la extraccion 4\n",Nnodes());
         vector<vector<F_Node*>*> mergeList;
         for(F_Node *raiz: rootList){
