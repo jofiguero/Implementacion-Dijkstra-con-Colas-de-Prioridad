@@ -215,6 +215,12 @@ class FibonacciHeap{
                 F_Node *n1 = (*mergeList[i])[0];
                 F_Node *n2 = (*mergeList[i])[1];
                 printf("Hay %d nodos en el heap WHILE 2\n",Nnodes());
+                printf("Hay %d elementos en mergeList[i] antes de borrar\n",mergeList[i]->size());
+                auto it1 = find(mergeList[i]->begin(), mergeList[i]->end(), n1);
+                mergeList[i]->erase(it1);
+                auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
+                mergeList[i]->erase(it2);
+                printf("Hay %d elementos en mergeList[i] despues de borrar\n",mergeList[i]->size());
                 if(raizYaExistente(n1) && raizYaExistente(n2)){
                     if(n1->key < n2->key){
                         printf("n1 tiene %d nodos\n",countNodes(n1));
@@ -226,14 +232,6 @@ class FibonacciHeap{
                         eraseRoot(n2);
                         printf("Hay %d nodos en el heap IF 2\n",Nnodes());
                         printRooList();
-                        /*eliminamos tambien n2 y n1 de mergeList[i]*/
-                        printf("Hay %d elementos en mergeList[i] antes de borrar\n",mergeList[i]->size());
-                        auto it1 = find(mergeList[i]->begin(), mergeList[i]->end(), n1);
-                        auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
-                        mergeList[i]->erase(it1);
-                        mergeList[i]->erase(it2);
-                        printf("Hay %d elementos en mergeList[i] despues de borrar\n",mergeList[i]->size());
-                        printf("Hay %d nodos en el heap IF 3\n",Nnodes());
 
                         if(mergeList.size()<=n1->degree){
                             /*Agregar un nuevo vector a la mergeList*/
@@ -256,12 +254,7 @@ class FibonacciHeap{
                         printf("Hay %d nodos y %d raices en el heap ELSE 3\n",Nnodes(),rootList.size());
                         printRooList();
                         /*eliminamos tambien n2 y n1 de vec*/
-                        printf("Hay %d elementos en mergeList[i] antes de borrar\n",mergeList[i]->size());
-                        auto it1 = find(mergeList[i]->begin(), mergeList[i]->end(), n1);
-                        auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
-                        mergeList[i]->erase(it1);
-                        mergeList[i]->erase(it2);
-                        printf("Hay %d elementos en mergeList[i] despues de borrar\n",mergeList[i]->size());
+
                         printf("Hay %d nodos en el heap ELSE 3\n",Nnodes());
                         if(mergeList.size()<=n2->degree){
                             /*Agregar un nuevo vector a la mergeList*/

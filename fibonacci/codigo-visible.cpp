@@ -203,17 +203,17 @@ class FibonacciHeap{
                 /*tomo las dos primeras raices*/
                 F_Node *n1 = (*mergeList[i])[0];
                 F_Node *n2 = (*mergeList[i])[1];
+
+                /*eliminamos tambien n2 y n1 de mergeList[i]*/
+                auto it1 = find(mergeList[i]->begin(), mergeList[i]->end(), n1);
+                mergeList[i]->erase(it1);
+                auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
+                mergeList[i]->erase(it2);
                 if(raizYaExistente(n1) && raizYaExistente(n2)){
                     if(n1->key < n2->key){
                         n1->addChild(n2);
                         eraseRoot(n2);
                         printRooList();
-                        /*eliminamos tambien n2 y n1 de mergeList[i]*/
-                        auto it1 = find(mergeList[i]->begin(), mergeList[i]->end(), n1);
-                        auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
-                        mergeList[i]->erase(it1);
-                        mergeList[i]->erase(it2);
-
                         if(mergeList.size()<=n1->degree){
                             /*Agregar un nuevo vector a la mergeList*/
                             mergeList.push_back(new vector<F_Node*>);
@@ -223,11 +223,6 @@ class FibonacciHeap{
                     }else{
                         n2->addChild(n1);
                         eraseRoot(n1);
-                        /*eliminamos tambien n2 y n1 de vec*/
-                        auto it1 = find(mergeList[i]->begin(), mergeList[i]->end(), n1);
-                        auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
-                        mergeList[i]->erase(it1);
-                        mergeList[i]->erase(it2);
                         if(mergeList.size()<=n2->degree){
                             /*Agregar un nuevo vector a la mergeList*/
                             mergeList.push_back(new vector<F_Node*>);
