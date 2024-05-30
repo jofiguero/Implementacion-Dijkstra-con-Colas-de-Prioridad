@@ -48,7 +48,7 @@ int main(){
 
     imprimirMatriz(matriz,7);
 
-    Retorno * ret = Dijkstra(0,matriz,7);
+    Retorno * ret = Dijkstra(1,matriz,7);
 
     printf("Llegue al final del programa!!\n");
     printf("Previos:\n");
