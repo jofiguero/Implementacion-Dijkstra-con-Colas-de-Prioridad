@@ -58,7 +58,9 @@ Retorno *Dijkstra(int raiz, matrix edges, int N){
     }
     //PASO 6
     while(!heap.isEmpty()){
+        printf("\nHay %d nodos en el heap antes de la extraccion\n",heap.Nnodes());
         F_Node *minimo = heap.ExtractMin();
+        printf("Hay %d nodos en el heap despues de la extraccion\n\n",heap.Nnodes());
         int nodo = minimo->pair->node;
 
         for(int v = 0; v < N; v++){ //Por cada nodo
