@@ -85,17 +85,19 @@ class FibonacciHeap{
         if(!parent->marked){
             parent->marked = true;
         }else{
-            if(parent->parent != nullptr){
-                cutOut(parent);
-            }
+            cutOut(parent);
         }
     }
 
     void setMinimum(){
+        if (rootList.empty()) {
+            minRoot = nullptr;
+            return;
+        }
         double max =  DBL_MAX;
-        for(F_Node *nodo: rootList){
-            if(nodo->key<=max){
-                max = nodo->key;
+        minRoot = rootList[0];
+        for (F_Node *nodo : rootList){
+            if (nodo->key < minRoot->key){
                 minRoot = nodo;
             }
         }
@@ -141,7 +143,7 @@ class FibonacciHeap{
     F_Node *ExtractMin(){
         //Seleccionamos el antiguo minimo
         F_Node* oldMin = minRoot;
-
+        
         if (rootList.size() == 1){
             eraseRoot(oldMin);
             minRoot = nullptr;
@@ -153,6 +155,10 @@ class FibonacciHeap{
             return oldMin;
         }
         
+        //Eliminamos la raiz de la lista de raices
+        eraseRoot(oldMin);
+
+
         //Agregamos sus hijos a la root list
 
         for (F_Node* child : oldMin->children) {
@@ -162,9 +168,6 @@ class FibonacciHeap{
         }
         //eliminamos los hijos del minimo de su lista de hijos
         oldMin->children.clear();
-
-        //Eliminamos la raiz de la lista de raices
-        eraseRoot(oldMin);
 
         vector<vector<F_Node*>*> mergeList;
         for(F_Node *raiz: rootList){
