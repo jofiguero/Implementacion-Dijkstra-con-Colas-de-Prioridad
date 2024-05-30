@@ -60,20 +60,12 @@ Retorno *Dijkstra(int raiz, double **edges, int N){
     while(!heap.isEmpty()){
         F_Node *minimo = heap.ExtractMin();
         int nodo = minimo->pair->node;
-        printf("\nEl nodo que estoy mirando es %d\n",nodo);
-        //printf("Tiene %d hijos\n",minimo->children.size());
-        printf("Hay %d nodos en el heap y %d raices\n",heap.Nnodes(),heap.rootList.size());
-        for(F_Node *raiz: heap.rootList){
-            printf("El arbol de raiz %d, con %d hijos, tiene %d nodos\n",raiz->pair->node,raiz->children.size(),raiz->countNodes(raiz));
-        }
 
         for(int v = 0; v < N; v++){ //Por cada nodo
             if(edges[nodo][v] != 0){  // Si es vecino
-                int peso = edges[nodo][v]; //Calculamos su distancia
-                printf("Tiene de vecino a %d, que act tiene una distancia de %f\n", v, distancias[v]);
+                double peso = edges[nodo][v]; //Calculamos su distancia
                 if(distancias[v] > distancias[nodo]+peso){
                     distancias[v] = distancias[nodo]+peso;
-                    printf("Le vamos a colocar como nueva distancia minima: %f\n",distancias[v]);
                     previos[v] = nodo;
                     heap.DecreaseKey(punteros[v], distancias[v]);
                 }
