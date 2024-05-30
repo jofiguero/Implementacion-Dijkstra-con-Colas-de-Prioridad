@@ -1,3 +1,6 @@
+#ifndef HEAP_F_CPP
+#define HEAP_F_CPP
+
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -111,3 +114,5 @@ class Heap{
         }
     }
 };
+
+#endif

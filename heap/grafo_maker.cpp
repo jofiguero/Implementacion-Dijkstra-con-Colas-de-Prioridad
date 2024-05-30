@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <random>
 #include "h_class.cpp"
+#include "dijkstra.cpp"
 using namespace std;
 
 typedef vector<vector<double>> matrix;
@@ -105,6 +106,18 @@ int main(){
     cout << "Ingrese la cantidad de aristas 2^";
     cin >> e;
     matrix M = genera_grafo(pow(2,v),pow(2,e));
+
     cout<<"SI SE PUDO"<<endl;
+
+    Retorno *ret = Dijkstra(0,M,pow(2,v));
+
+    cout<<"termine"<<endl;
+
+    printf("Distancias:\n");
+    for(int i = 0; i<pow(2,v); i++){
+        printf("Para llegar a nodo %d, la distancia total es %f,\n",i+1,ret->Ldistancias[i]);
+    }
+    cout<<"LLegue al final del programa!!"<<endl;
+
     //imprimirMatriz(M);
 }
