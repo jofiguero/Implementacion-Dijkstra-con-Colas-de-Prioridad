@@ -21,7 +21,7 @@ Recibe un nodo raiz, un arreglo de nodos, una matriz de distancias entre nodos y
 que hay, construye el arbol de caminos mas corto entre el nodo raiz y cualquier nodo del grafo y 
 retorna el arreglo de distancias y de previos que lo representa.
 */
-Retorno *Dijkstra(int raiz, double ** edges, int N){
+Retorno *Dijkstra(int raiz, matrix edges, int N){
     //PASO 1
     int nodes[N];
     for (int i = 0; i<N; i++){
