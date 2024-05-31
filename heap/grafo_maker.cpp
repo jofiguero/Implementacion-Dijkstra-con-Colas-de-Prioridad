@@ -92,13 +92,12 @@ void imprimirMatriz(matrix M){
 
 matrix genera_grafo(int v, int e){
     matrix M = crear_matriz_ceros(v);
-    cout<<"se puede crear la matriz"<<endl;
     generar_arbol_cobertor(M,v);
     add_aristas(M,v,e);
     return M;
 }
 
-int main(){
+int mainfalso(){
     int v; // Cantidad de nodos del grafo
     int e;
     cout << "Ingrese la cantidad de nodos 2^";
@@ -120,4 +119,5 @@ int main(){
     cout<<"LLegue al final del programa!!"<<endl;
 
     //imprimirMatriz(M);
+    return 0;
 }

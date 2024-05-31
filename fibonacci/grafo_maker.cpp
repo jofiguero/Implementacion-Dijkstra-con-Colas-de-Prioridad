@@ -92,13 +92,12 @@ void imprimirMatriz(matrix M){
 
 matrix genera_grafo(int v, int e){
     matrix M = crear_matriz_ceros(v);
-    cout<<"se puede crear la matriz"<<endl;
     generar_arbol_cobertor(M,v);
     add_aristas(M,v,e);
     return M;
 }
 
-int main(){
+int mainfalso(){
     int v; // Cantidad de nodos del grafo
     int e;
     cout << "Ingrese la cantidad de nodos 2^";
@@ -109,7 +108,7 @@ int main(){
 
     cout<<"SI SE PUDO"<<endl;
 
-    Retorno *ret = Dijkstra(0,M,pow(2,v));
+    Retorno *ret = Dijkstra(0, M, pow(2,v));
 
     cout<<"termine"<<endl;
 
@@ -118,6 +117,6 @@ int main(){
         printf("Para llegar a nodo %d, la distancia total es %f,\n",i+1,ret->Ldistancias[i]);
     }
     cout<<"LLegue al final del programa!!"<<endl;
-
+    return 0;
     //imprimirMatriz(M);
 }
