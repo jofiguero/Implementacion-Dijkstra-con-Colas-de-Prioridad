@@ -8,24 +8,24 @@
 #include <cfloat>
 using namespace std; 
 
-class Par{
+class f_Par{
     public:
     int node;
     double distance;
 
-    Par(int node, double distance): node(node), distance(distance) {}
+    f_Par(int node, double distance): node(node), distance(distance) {}
 };
 
 class F_Node{
     public:
     double key;
-    Par *pair;
+    f_Par *pair;
     bool marked;
     int degree;
     F_Node *parent;
     vector<F_Node*> children;
 
-    F_Node(double value,int i) : key(value), degree(0), marked(false), pair(new Par(i,value)){}
+    F_Node(double value,int i) : key(value), degree(0), marked(false), pair(new f_Par(i,value)){}
 
     bool operator==(const F_Node& other) const {
         if (pair->node != other.pair->node) return false;

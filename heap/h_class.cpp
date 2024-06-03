@@ -6,18 +6,18 @@
 #include <vector>
 using namespace std;
 
-class Par{
+class h_Par{
     public:
     double distancia;
     int nodo;
     int pos;    //indice dentro del heap
 
-    Par(double d, int nodo): distancia(d), nodo(nodo), pos(nodo) {}
+    h_Par(double d, int nodo): distancia(d), nodo(nodo), pos(nodo) {}
 };
 
 class Heap{
     public:
-    vector<Par*> h;
+    vector<h_Par*> h;
     int n;
 
     Heap (): n(0){}
@@ -42,7 +42,7 @@ class Heap{
             if(h[i]->distancia <= h[hijo]->distancia){
                 break;
             }
-            Par *temp = h[i];    //los intercambia
+            h_Par *temp = h[i];    //los intercambia
             h[i] = h[hijo];
             h[hijo] = temp;
 
@@ -58,7 +58,7 @@ class Heap{
         int padre = (i-1)/2;
         //mientras no se quiera subir la raiz, y el nodo tenga mejor prioridad que su padre
         while(i>=1 && h[i]->distancia < h[padre]->distancia){
-            Par *temp = h[i];    //los intercambia
+            h_Par *temp = h[i];    //los intercambia
             h[i] = h[padre];
             h[padre] = temp;
 
@@ -71,13 +71,13 @@ class Heap{
     }
 
     //obtener la raiz del heap(con menor distancia)
-    Par getMin(){   
+    h_Par getMin(){   
         return *h[0];
     }
 
     //entrega la raiz del heap(con menor distancia)
-    Par *extractMin(){   
-        Par *min = h[0];
+    h_Par *extractMin(){   
+        h_Par *min = h[0];
         h[0] = h[n-1];
         h[0]->pos = 0;
         h.pop_back();
@@ -87,7 +87,7 @@ class Heap{
     }
 
     //inserta un elemento en el heap, siguiendo las reglas del heap
-    void insertarHeap(Par *p){
+    void insertarHeap(h_Par *p){
         p->pos = n;
         h.push_back(p);
         n++;
@@ -95,13 +95,13 @@ class Heap{
     }
 
     //inserta un elemento en el heap, sin seguir las reglas del heap
-    void insertar(Par *p){
+    void insertar(h_Par *p){
         p->pos = n;
         h.push_back(p);
         n++;
     }
 
-    void decreaseKey(Par *p, double d){
+    void decreaseKey(h_Par *p, double d){
         //p->distancia = d;
         h[p->pos]->distancia = d;
         subir(p->pos);

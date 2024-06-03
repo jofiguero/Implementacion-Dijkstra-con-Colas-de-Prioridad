@@ -6,12 +6,12 @@
 #include <cfloat>
 #include "fibonacci-heap.cpp"
 typedef vector<vector<double>> matrix;
-class Retorno{
+class f_Retorno{
     public:
     double *Ldistancias;
     int *Lprevios;
 
-    Retorno(double *distancias,int *previos): Ldistancias(distancias), Lprevios(previos){}
+    f_Retorno(double *distancias,int *previos): Ldistancias(distancias), Lprevios(previos){}
 };
 
 /*
@@ -21,7 +21,7 @@ Recibe un nodo raiz, un arreglo de nodos, una matriz de distancias entre nodos y
 que hay, construye el arbol de caminos mas corto entre el nodo raiz y cualquier nodo del grafo y 
 retorna el arreglo de distancias y de previos que lo representa.
 */
-Retorno *Dijkstra(int raiz, double ** edges, int N){
+f_Retorno *f_Dijkstra(int raiz, matrix edges, int N){
     //PASO 1
     int nodes[N];
     for (int i = 0; i<N; i++){
@@ -74,6 +74,6 @@ Retorno *Dijkstra(int raiz, double ** edges, int N){
         //delete minimo->pair;
         //delete minimo;
     }  
-    Retorno *ret = new Retorno(distancias,previos);
+    f_Retorno *ret = new f_Retorno(distancias,previos);
     return ret;
 }
