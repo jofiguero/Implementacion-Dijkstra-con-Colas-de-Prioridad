@@ -18,6 +18,9 @@ double exp(int v, int e){
     Retorno *ret = Dijkstra(0,M,pow(2,v));
 
     final = clock();
+    free(ret->Ldistancias);
+    free(ret->Lprevios);
+    delete ret;
     double tiempo = (double(final-inicio)/CLOCKS_PER_SEC);
     return tiempo;
 }

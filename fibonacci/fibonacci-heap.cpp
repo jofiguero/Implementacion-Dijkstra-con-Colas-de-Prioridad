@@ -75,7 +75,6 @@ class FibonacciHeap{
         auto it = find(rootList.begin(), rootList.end(), nodo);
         int i = 1;
         if (it != rootList.end()) {
-            printf("El nodo que vamos a eliminar es el %d y tiene %d nodos en su subarbol\n", (*it)->pair->node,countNodes(*it)-1);
             rootList.erase(it);
         }
     }
@@ -95,18 +94,23 @@ class FibonacciHeap{
     }
 
     void cutOut(F_Node *nodo){
-        insert(nodo);
-        F_Node *parent = nodo->parent;
-        nodo->parent = nullptr;
-        nodo->marked = false;
-        parent->eraseChild(nodo);
-        if(!parent->marked){
-            parent->marked = true;
+        if(raizYaExistente(nodo)||nodo->parent == nullptr){
+            nodo->marked = false;
         }else{
-            if(parent->parent != nullptr){
-                cutOut(parent);
+            insert(nodo);
+            F_Node *parent = nodo->parent;
+            nodo->parent = nullptr;
+            nodo->marked = false;
+            parent->eraseChild(nodo);
+            if(!parent->marked){
+                parent->marked = true;
+            }else{
+                if(parent->parent != nullptr){
+                    cutOut(parent);
+                }
             }
         }
+
     }
 
     void setMinimum(){
@@ -140,7 +144,10 @@ class FibonacciHeap{
         nodo->key = newkey;
         nodo->pair->distance = newkey;
         if(nodo->parent != nullptr){
-            if(nodo->parent->key > newkey){
+            //printf("/d4/");
+            //printf("%p\n",nodo->parent);
+            //printf("%f\n",nodo->parent->key);
+            if(nodo->parent->pair->distance > newkey){
                 cutOut(nodo);
             }
         }
@@ -235,6 +242,11 @@ class FibonacciHeap{
                 }
             }
         }
+        
+        for(vector<F_Node*> *vec: mergeList){
+            delete vec;
+        }
+        
         setMinimum();
         return oldMin;
     }
