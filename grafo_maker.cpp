@@ -4,7 +4,6 @@
 #include <ctime>
 #include <cstdlib>
 #include <random>
-#include "dijkstra.cpp"
 
 using namespace std;
 
@@ -108,16 +107,5 @@ int mainfalso(){
 
     cout<<"SI SE PUDO"<<endl;
 
-    Retorno *ret = Dijkstra(0,M,pow(2,v));
-
-    cout<<"termine"<<endl;
-
-    printf("Distancias:\n");
-    for(int i = 0; i<pow(2,v); i++){
-        printf("Para llegar a nodo %d, la distancia total es %f,\n",i+1,ret->Ldistancias[i]);
-    }
-    cout<<"LLegue al final del programa!!"<<endl;
-
-    //imprimirMatriz(M);
     return 0;
 }

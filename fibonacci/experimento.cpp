@@ -8,6 +8,7 @@
 #include <random>
 #include "grafo_maker.cpp"
 
+
 using namespace std;
 
 double exp(int v, int e){
@@ -15,7 +16,7 @@ double exp(int v, int e){
     unsigned inicio, final;
     inicio = clock();
 
-    Retorno *ret = Dijkstra(0,M,pow(2,v));
+    f_Retorno *ret = f_Dijkstra(0,M,pow(2,v));
 
     final = clock();
     double tiempo = (double(final-inicio)/CLOCKS_PER_SEC);
