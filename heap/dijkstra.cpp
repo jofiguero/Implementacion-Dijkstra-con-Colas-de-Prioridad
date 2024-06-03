@@ -8,12 +8,12 @@
 
 typedef vector<vector<double>> matrix;
 
-class Retorno{
+class h_Retorno{
     public:
     double *Ldistancias;
     int *Lprevios;
 
-    Retorno(double *distancias,int *previos): Ldistancias(distancias), Lprevios(previos){}
+    h_Retorno(double *distancias,int *previos): Ldistancias(distancias), Lprevios(previos){}
 };
 /*
 Algoritmo Dijkstra
@@ -22,7 +22,7 @@ Recibe un nodo raiz, un arreglo de nodos, una matriz de distancias entre nodos y
 que hay, construye el arbol de caminos mas corto entre el nodo raiz y cualquier nodo del grafo y 
 retorna el arreglo de distancias y de previos que lo representa.
 */
-Retorno *Dijkstra(int raiz, matrix edges, int N){
+h_Retorno *h_Dijkstra(int raiz, matrix edges, int N){
     //PASO 1
     int nodes[N];
     for (int i = 0; i<N; i++){
@@ -33,12 +33,12 @@ Retorno *Dijkstra(int raiz, matrix edges, int N){
 
     //PASO 2
     Heap heap; 
-    Par *punteros[N];
+    h_Par *punteros[N];
 
     //PASO 3
     distancias[raiz] = 0;
     previos[raiz] = -1;
-    Par *p1 = new Par(0,raiz);
+    h_Par *p1 = new h_Par(0,raiz);
     punteros[raiz] = p1;
     heap.insertar(p1);
 
@@ -50,7 +50,7 @@ Retorno *Dijkstra(int raiz, matrix edges, int N){
             /*Se define previos[v] como indefinido*/
             previos[v] = -1;
             /*Creamos el F_Node(infinito,v)*/
-            Par *n = new Par(DBL_MAX,v);
+            h_Par *n = new h_Par(DBL_MAX,v);
             /*Lo agregamos a heap*/
             heap.insertar(n);
             /*Registramos el puntero*/
@@ -61,7 +61,7 @@ Retorno *Dijkstra(int raiz, matrix edges, int N){
     heap.heapify();
     //PASO 6
     while(!heap.isEmpty()){
-        Par *minimo = heap.extractMin();
+        h_Par *minimo = heap.extractMin();
         int nodo = minimo->nodo;
         for(int v = 0; v < N; v++){ //Por cada nodo
             if(edges[nodo][v] != 0){  // Si es vecino
@@ -74,6 +74,6 @@ Retorno *Dijkstra(int raiz, matrix edges, int N){
             }
         }
     }  
-    Retorno *ret = new Retorno(distancias,previos);
+    h_Retorno *ret = new h_Retorno(distancias,previos);
     return ret;
 }
