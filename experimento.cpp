@@ -27,7 +27,7 @@ tuple<double, double> exp(int v, int e){
     double f_tiempo = (double(f_final-f_inicio)/CLOCKS_PER_SEC);
     double h_tiempo = (double(h_final-h_inicio)/CLOCKS_PER_SEC);
     
-    return make_tuple(5, h_tiempo);
+    return make_tuple(f_tiempo, h_tiempo);
 }
 
 void exp_50(int v, int e){
