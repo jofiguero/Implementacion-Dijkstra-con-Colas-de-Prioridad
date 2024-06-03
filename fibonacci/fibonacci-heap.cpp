@@ -79,8 +79,7 @@ class FibonacciHeap{
         }
     }
     void insert(F_Node *nodo){
-        if(!raizYaExistente(nodo)){
-                if(rootList.size() == 0){
+            if(minRoot == nullptr){
                 rootList.push_back(nodo);
                 minRoot = nodo;
             }else{
@@ -89,8 +88,6 @@ class FibonacciHeap{
                     minRoot = nodo;
                 }
             }
-        }
-        
     }
 
     void cutOut(F_Node *nodo){
@@ -144,14 +141,12 @@ class FibonacciHeap{
         nodo->key = newkey;
         nodo->pair->distance = newkey;
         if(nodo->parent != nullptr){
-            //printf("/d4/");
-            //printf("%p\n",nodo->parent);
-            //printf("%f\n",nodo->parent->key);
+
             if(nodo->parent->pair->distance > newkey){
                 cutOut(nodo);
             }
         }
-        setMinimum();
+        //setMinimum();
     }
     int countNodes(F_Node *nodo){
         int count = 1; // contar el nodo actual
@@ -206,33 +201,23 @@ class FibonacciHeap{
                 auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
                 mergeList[i]->erase(it2);
 
-                if(raizYaExistente(n1) && raizYaExistente(n2)){
-                    if(n1->key < n2->key){
-                        n1->addChild(n2);
+                if(n1->key < n2->key){
+                    n1->addChild(n2);
 
-                        if(mergeList.size()<=n1->degree){
-                            /*Agregar un nuevo vector a la mergeList*/
-                            mergeList.push_back(new vector<F_Node*>);
-                        }
-                        /*Agregar n1 al siguiente vector de la mergeList*/
-                        mergeList[n1->degree]->push_back(n1);
-                    }else{
-                        n2->addChild(n1);
-                        if(mergeList.size()<=n2->degree){
-                            /*Agregar un nuevo vector a la mergeList*/
-                            mergeList.push_back(new vector<F_Node*>);
-                        }
-                        /*Agregar n2 al siguiente vector de la mergeList*/
-                        mergeList[n2->degree]->push_back(n2);
+                    if(mergeList.size()<=n1->degree){
+                        /*Agregar un nuevo vector a la mergeList*/
+                        mergeList.push_back(new vector<F_Node*>);
                     }
+                    /*Agregar n1 al siguiente vector de la mergeList*/
+                    mergeList[n1->degree]->push_back(n1);
                 }else{
-                    if(!raizYaExistente(n1)){
-                        auto it1 = find(mergeList[i]->begin(), mergeList[i]->end(), n1);
-                        mergeList[i]->erase(it1);
-                    }else{
-                        auto it2 = find(mergeList[i]->begin(), mergeList[i]->end(), n2);
-                        mergeList[i]->erase(it2);
+                    n2->addChild(n1);
+                    if(mergeList.size()<=n2->degree){
+                        /*Agregar un nuevo vector a la mergeList*/
+                        mergeList.push_back(new vector<F_Node*>);
                     }
+                    /*Agregar n2 al siguiente vector de la mergeList*/
+                    mergeList[n2->degree]->push_back(n2);
                 }
                 rootList.clear();
                 for(vector<F_Node*> *vec: mergeList){
