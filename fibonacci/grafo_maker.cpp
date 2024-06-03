@@ -108,7 +108,7 @@ int mainfalso(){
 
     cout<<"SI SE PUDO"<<endl;
 
-    Retorno *ret = Dijkstra(0, M, pow(2,v));
+    f_Retorno *ret = f_Dijkstra(0, M, pow(2,v));
 
     cout<<"termine"<<endl;
 

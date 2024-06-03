@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <stdio.h>
 #include <cfloat>
 #include "dijkstra.cpp"
 
@@ -30,7 +29,7 @@ int main(){
     }
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            matriz[i][j] =0;  // Asignar valores a la matriz
+            matriz[i][j] = 0;
         }
     }
 
@@ -46,19 +45,26 @@ int main(){
     matriz[4][5] = matriz[5][4] = 1;
     matriz[5][6] = matriz[6][5] = 2;
 
-    imprimirMatriz(matriz,7);
+    imprimirMatriz(matriz, rows);
 
-    f_Retorno * ret = f_Dijkstra(5,matriz,7);
+    int raiz = 6;
+    Retorno* resultado = Dijkstra(raiz, matriz, rows);
 
-    printf("Llegue al final del programa!!\n");
-    printf("Previos:\n");
-    for(int i = 0; i<7; i++){
-        printf("Para llegar a nodo %d, el previo es %d,\n",i,ret->Lprevios[i]);
+    for(int i = 0; i < rows; i++){
+        std::cout << "Distancia al nodo " << i << ": " << resultado->Ldistancias[i] << std::endl;
     }
-    printf("Distancias:\n");
-    for(int i = 0; i<7; i++){
-        printf("Para llegar a nodo %d, la distancia total es %f,\n",i,ret->Ldistancias[i]);
+    for(int i = 0; i < rows; i++){
+        std::cout << "Nodo previo a " << i << ": " << resultado->Lprevios[i] << std::endl;
     }
+
+    for(int i = 0; i < rows; ++i) {
+        free(matriz[i]);
+    }
+    free(matriz);
+
+    delete[] resultado->Ldistancias;
+    delete[] resultado->Lprevios;
+    delete resultado;
 
     return 0;
 }

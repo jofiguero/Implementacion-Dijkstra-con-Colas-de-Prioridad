@@ -73,10 +73,10 @@ class FibonacciHeap{
 
     void eraseRoot(F_Node *nodo){
         auto it = find(rootList.begin(), rootList.end(), nodo);
-        int i = 1;
-        if (it != rootList.end()) {
+        if(it != rootList.end()){
             rootList.erase(it);
         }
+        
     }
     void insert(F_Node *nodo){
             if(minRoot == nullptr){
@@ -91,7 +91,7 @@ class FibonacciHeap{
     }
 
     void cutOut(F_Node *nodo){
-        if(raizYaExistente(nodo)||nodo->parent == nullptr){
+        if(nodo->parent == nullptr){
             nodo->marked = false;
         }else{
             insert(nodo);
@@ -141,7 +141,6 @@ class FibonacciHeap{
         nodo->key = newkey;
         nodo->pair->distance = newkey;
         if(nodo->parent != nullptr){
-
             if(nodo->parent->pair->distance > newkey){
                 cutOut(nodo);
             }
@@ -172,7 +171,7 @@ class FibonacciHeap{
             child->parent = nullptr;
             insert(child);
         }
-        oldMin->children.clear();
+        //oldMin->children.clear();
         if (rootList.size() == 1){
             eraseRoot(oldMin);
             minRoot = nullptr;
@@ -214,7 +213,7 @@ class FibonacciHeap{
                     n2->addChild(n1);
                     if(mergeList.size()<=n2->degree){
                         /*Agregar un nuevo vector a la mergeList*/
-                        mergeList.push_back(new vector<F_Node*>);
+                        mergeList.push_back(new vector<F_Node*>());
                     }
                     /*Agregar n2 al siguiente vector de la mergeList*/
                     mergeList[n2->degree]->push_back(n2);
@@ -227,10 +226,11 @@ class FibonacciHeap{
                 }
             }
         }
-        
+        /*
         for(vector<F_Node*> *vec: mergeList){
             delete vec;
         }
+        */
         
         setMinimum();
         return oldMin;
