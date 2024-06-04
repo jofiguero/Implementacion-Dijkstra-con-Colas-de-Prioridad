@@ -60,10 +60,9 @@ f_Retorno *f_Dijkstra(int raiz, matrix edges, int N){
     while(!heap.isEmpty()){
         F_Node *minimo = heap.ExtractMin();
         int nodo = minimo->pair->node;
-
-        for(int v = 0; v < N; v++){ //Por cada nodo
-            if(edges[nodo][v] != 0){  // Si es vecino
-                double peso = edges[nodo][v]; //Calculamos su distancia
+        for(int v = 0; v < N; v++){ 
+            if(edges[nodo][v] != 0){ 
+                double peso = edges[nodo][v];
                 if(distancias[v] > distancias[nodo]+peso){
                     distancias[v] = distancias[nodo]+peso;
                     previos[v] = nodo;
@@ -71,9 +70,9 @@ f_Retorno *f_Dijkstra(int raiz, matrix edges, int N){
                 }
             }
         }
-        //delete minimo->pair;
-        //delete minimo;
-    }  
+        delete minimo->pair;
+        delete minimo;
+    } 
     f_Retorno *ret = new f_Retorno(distancias,previos);
     return ret;
 }
