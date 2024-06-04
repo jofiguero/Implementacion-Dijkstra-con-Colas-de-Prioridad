@@ -79,30 +79,29 @@ class FibonacciHeap{
         }
     }
     void insert(F_Node *nodo){
-        if(rootList.size() == 0){ /*Si convertimos esto en un minRoot == nullptr deberia ser mas eficiente*/
-            rootList.push_back(nodo);
-            minRoot = nodo;
-        }else{
-            rootList.push_back(nodo);
-            if (nodo->key < minRoot->key){
+        if(!raizYaExistente(nodo)){
+                if(rootList.size() == 0){
+                rootList.push_back(nodo);
                 minRoot = nodo;
+            }else{
+                rootList.push_back(nodo);
+                if (nodo->key < minRoot->key){
+                    minRoot = nodo;
+                }
             }
         }
         
     }
 
     void cutOut(F_Node *nodo){
-        if(nodo->parent == nullptr){
+        if(raizYaExistente(nodo)||nodo->parent == nullptr){
             nodo->marked = false;
         }else{
-            //printf("1");
             insert(nodo);
             F_Node *parent = nodo->parent;
             nodo->parent = nullptr;
             nodo->marked = false;
-            //printf("2");
             parent->eraseChild(nodo);
-            //printf("3");
             if(!parent->marked){
                 parent->marked = true;
             }else{
@@ -148,11 +147,11 @@ class FibonacciHeap{
             //printf("/d4/");
             //printf("%p\n",nodo->parent);
             //printf("%f\n",nodo->parent->key);
-            if(nodo->parent->key > newkey){
+            if(nodo->parent->pair->distance > newkey){
                 cutOut(nodo);
             }
         }
-        //setMinimum();
+        setMinimum();
     }
     int countNodes(F_Node *nodo){
         int count = 1; // contar el nodo actual
@@ -169,7 +168,7 @@ class FibonacciHeap{
         }
         return totalNodes;
     }
-    F_Node *ExtractMin(){ /*Hacer lo que yo hacia antes en vez de lo del video y sacar lo del raiz ya existente*/
+    F_Node *ExtractMin(){
         //Seleccionamos el antiguo minimo
         F_Node* oldMin = minRoot;
 
