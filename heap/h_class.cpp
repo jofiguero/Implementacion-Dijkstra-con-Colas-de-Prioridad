@@ -6,6 +6,17 @@
 #include <vector>
 using namespace std;
 
+/*
+Clase h_Par
+La clase que representa un par, que será posteriormente almacenado en un heap.
+
+Contiene dos atributos:
+1) distancia: es la distancia a la que se encuentra este nodo de el nodo raiz según las mediciones 
+actuales.
+2) nodo: es el nodo del grafo al que pertenece este par.
+3) pos: es la posición de este par dentro del arreglo que representa el heap, permite que cada par
+sea consciente en sí mismo de su ubicación
+*/
 class h_Par{
     public:
     double distancia;
@@ -15,6 +26,13 @@ class h_Par{
     h_Par(double d, int nodo): distancia(d), nodo(nodo), pos(nodo) {}
 };
 
+/*
+Clase Heap
+La clase que representa un Heap
+Contiene 2 atributos:
+1) h: es el arreglo que contiene los punteros a pares representando el heap
+2) n: es la cantidad de elementos que contiene h
+*/
 class Heap{
     public:
     vector<h_Par*> h;
@@ -22,14 +40,19 @@ class Heap{
 
     Heap (): n(0){}
 
-
+    /*
+    Retorna verdadero si el heap está vacio, falso si no lo está
+    */
     bool isEmpty(){
         if (h.size() == 0){
             return true;
         }
         return false;
     }
-    //hunde el nodo en la posicion i hasta su nivel correcto
+
+    /*
+    Hunde el nodo en la posicion i hasta su nivel correcto
+    */
     void hundir(int i){ 
         //mientras tenga hijos
         while(2*i+1 < n){
@@ -53,7 +76,9 @@ class Heap{
         }
     }
 
-    //sube un nodo en la posicion i hasta su nivel correcto
+    /*
+    Sube un nodo en la posicion i hasta su nivel correcto
+    */
     void subir(int i){
         int padre = (i-1)/2;
         //mientras no se quiera subir la raiz, y el nodo tenga mejor prioridad que su padre
@@ -70,12 +95,16 @@ class Heap{
         }
     }
 
-    //obtener la raiz del heap(con menor distancia)
+    /*
+    Obtener la raiz del heap(con menor distancia) 
+    */
     h_Par getMin(){   
         return *h[0];
     }
 
-    //entrega la raiz del heap(con menor distancia)
+    /*
+    Entrega la raiz del heap(con menor distancia)
+    */
     h_Par *extractMin(){   
         h_Par *min = h[0];
         h[0] = h[n-1];
@@ -86,7 +115,9 @@ class Heap{
         return min;
     }
 
-    //inserta un elemento en el heap, siguiendo las reglas del heap
+    /*
+    Inserta un elemento en el heap, siguiendo las reglas del heap
+    */
     void insertarHeap(h_Par *p){
         p->pos = n;
         h.push_back(p);
@@ -94,19 +125,27 @@ class Heap{
         subir(n-1);
     }
 
-    //inserta un elemento en el heap, sin seguir las reglas del heap
+    /*
+    Inserta un elemento en el heap, sin seguir las reglas del heap
+    */
     void insertar(h_Par *p){
         p->pos = n;
         h.push_back(p);
         n++;
     }
 
+    /*
+    Decrementa el registro de distancia hacia el nodo raíz del par *p y reordena el heap luego de esto
+    */
     void decreaseKey(h_Par *p, double d){
         //p->distancia = d;
         h[p->pos]->distancia = d;
         subir(p->pos);
     }
 
+    /*
+    Convierte un arreglo en un heap en orden O(n)
+    */
     void heapify(){
         int nodo_interno = (n / 2) - 1;     // indice del ultimo nodo interno
         for (int i = nodo_interno; i >= 0; i--) {

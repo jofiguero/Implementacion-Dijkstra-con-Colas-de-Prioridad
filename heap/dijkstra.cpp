@@ -8,6 +8,11 @@
 
 typedef vector<vector<double>> matrix;
 
+/*
+Clase h_Retorno
+La clase que representa el retorno del algoritmo de Dijkstra, almacena un puntero a un arreglo de 
+distancias y un arreglo de nodos previos.
+*/
 class h_Retorno{
     public:
     double *Ldistancias;
@@ -15,8 +20,9 @@ class h_Retorno{
 
     h_Retorno(double *distancias,int *previos): Ldistancias(distancias), Lprevios(previos){}
 };
+
 /*
-Algoritmo Dijkstra
+Algoritmo Dijkstra, especifico para heap
 
 Recibe un nodo raiz, un arreglo de nodos, una matriz de distancias entre nodos y la cantidad de nodos
 que hay, construye el arbol de caminos mas corto entre el nodo raiz y cualquier nodo del grafo y 

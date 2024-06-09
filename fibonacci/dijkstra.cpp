@@ -21,7 +21,7 @@ class f_Retorno{
 };
 
 /*
-Algoritmo Dijkstra
+Algoritmo Dijkstra, especifico de colas de fibonacci
 
 Recibe un nodo raiz, un arreglo de nodos, una matriz de distancias entre nodos y la cantidad de nodos
 que hay, construye el arbol de caminos mas corto entre el nodo raiz y cualquier nodo del grafo y 
