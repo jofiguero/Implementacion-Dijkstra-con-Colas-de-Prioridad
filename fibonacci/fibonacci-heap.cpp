@@ -79,22 +79,21 @@ class FibonacciHeap{
         }
     }
     void insert(F_Node *nodo){
-        if(!raizYaExistente(nodo)){
-                if(rootList.size() == 0){
-                rootList.push_back(nodo);
+        if(rootList.size() == 0){
+            rootList.push_back(nodo);
+            minRoot = nodo;
+        }else{
+            rootList.push_back(nodo);
+            if (nodo->key < minRoot->key){
                 minRoot = nodo;
-            }else{
-                rootList.push_back(nodo);
-                if (nodo->key < minRoot->key){
-                    minRoot = nodo;
-                }
             }
         }
-        
     }
+        
+    
 
     void cutOut(F_Node *nodo){
-        if(raizYaExistente(nodo)||nodo->parent == nullptr){
+        if(nodo->parent == nullptr){
             nodo->marked = false;
         }else{
             insert(nodo);
@@ -151,7 +150,7 @@ class FibonacciHeap{
                 cutOut(nodo);
             }
         }
-        setMinimum();
+        //setMinimum();
     }
     int countNodes(F_Node *nodo){
         int count = 1; // contar el nodo actual
@@ -177,7 +176,7 @@ class FibonacciHeap{
             child->parent = nullptr;
             insert(child);
         }
-        oldMin->children.clear();
+        //oldMin->children.clear();
         if (rootList.size() == 1){
             eraseRoot(oldMin);
             minRoot = nullptr;
