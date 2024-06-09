@@ -6,6 +6,12 @@
 #include <cfloat>
 #include "fibonacci-heap.cpp"
 typedef vector<vector<double>> matrix;
+
+/*
+Clase f_Retorno
+La clase que representa el retorno del algoritmo de Dijkstra, almacena un puntero a un arreglo de 
+distancias y un arreglo de nodos previos.
+*/
 class f_Retorno{
     public:
     double *Ldistancias;
@@ -58,10 +64,8 @@ f_Retorno *f_Dijkstra(int raiz, matrix edges, int N){
     }
     //PASO 6
     while(!heap.isEmpty()){
-        //printf("a");
         F_Node *minimo = heap.ExtractMin();
         int nodo = minimo->pair->node;
-        //printf("b");
 
         for(int v = 0; v < N; v++){ //Por cada nodo
             if(edges[nodo][v] != 0){  // Si es vecino
@@ -69,9 +73,7 @@ f_Retorno *f_Dijkstra(int raiz, matrix edges, int N){
                 if(distancias[v] > distancias[nodo]+peso){
                     distancias[v] = distancias[nodo]+peso;
                     previos[v] = nodo;
-                    //printf("c");
                     heap.DecreaseKey(punteros[v], distancias[v]);
-                    //printf("d");
                 }
             }
         }
