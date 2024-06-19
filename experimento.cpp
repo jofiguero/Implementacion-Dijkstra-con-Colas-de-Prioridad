@@ -44,7 +44,7 @@ void exp_50(int v, int e){
 void experimento(){
     for(int v=10; v<=14; v+=2){
         for(int e=16; e<=22; e++){
-            if(v*2-2 >= e){
+            if(pow(2,2*v-2)-pow(2,v-1) >= pow(2,e)){
                 exp_50(v,e);
             }
         }

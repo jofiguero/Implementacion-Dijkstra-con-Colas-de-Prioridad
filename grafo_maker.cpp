@@ -95,17 +95,3 @@ matrix genera_grafo(int v, int e){
     add_aristas(M,v,e);
     return M;
 }
-
-int mainfalso(){
-    int v; // Cantidad de nodos del grafo
-    int e;
-    cout << "Ingrese la cantidad de nodos 2^";
-    cin >> v;
-    cout << "Ingrese la cantidad de aristas 2^";
-    cin >> e;
-    matrix M = genera_grafo(pow(2,v),pow(2,e));
-
-    cout<<"SI SE PUDO"<<endl;
-
-    return 0;
-}
